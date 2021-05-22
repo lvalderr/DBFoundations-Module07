@@ -1,5 +1,8 @@
 # SQL Functions
 
+**Dev:** *LValderrama*  
+**Date:** *05.22.2021*
+
 ## Introduction
 During the course of the Seventh module, I learned the basic concepts and practical uses of User Defined Functions (UDF) available in the MS SQL RDMS. 
 This document addresses the uses, similarities and differences between Scalar, Inline and Multistatement Functions. 
@@ -27,8 +30,8 @@ https://docs.microsoft.com/en-us/sql/relational-databases/user-defined-functions
 
 •	Inline Functions are better for performance than Multistatement Functions. Therefore, it is preferred to use Inline Functions whenever possible.
 
-Before we examine the Function example created for this assignment, first I want to present the View example used in the Assignment07DB_LuisValderrama, (2021) (SQL Script) 
-as shown below on (figure 1.1). This View includes a newly created, column named CountVsPreviousCountKPI. The new column includes a Function that compares inventory count 
+Before we examine the Function example created for this assignment, first I want to present the View example used in the *Assignment07DB_LuisValderrama, (2021) (SQL Script)* 
+as shown below on (figure 1.1). This View includes a newly created, column named *CountVsPreviousCountKPI*. The new column includes a Function that compares inventory count 
 from prior month to the current month, and will display ‘1’ if the inventory counts increased, a ‘0’ for no change, and ‘-1’ if the inventory count decreased from the prior month.
 This is called the Key Performance Indicator or KPI.
 
@@ -43,7 +46,7 @@ AS
     , PreviousMonthCount  
     , [CountVsPreviousCountKPI] = 
   CASE
-	  WHEN InventoryCount > PreviousMonthCount THEN  1	  
+    WHEN InventoryCount > PreviousMonthCount THEN  1	  
     WHEN InventoryCount = PreviousMonthCount THEN  0	  
     WHEN InventoryCount < PreviousMonthCount THEN -1
   END
@@ -63,14 +66,14 @@ CREATE FUNCTION dbo.fProductInventoriesWithPreviousMonthCountsWithKPIs(@KPIValue
 RETURNS TABLE
 AS   
   RETURN
-    SELECT TOP 1000000
+     SELECT TOP 1000000
 	  ProductName
 	, InventoryDate 
 	, InventoryCount
 	, PreviousMonthCount
 	, CountVsPreviousCountKPI
-    FROM vProductInventoriesWithPreviousMonthCountsWithKPIs AS v1
-    WHERE CountVsPreviousCountKPI = @KPIValue
+     FROM vProductInventoriesWithPreviousMonthCountsWithKPIs AS v1
+     WHERE CountVsPreviousCountKPI = @KPIValue
 ORDER BY YEAR(CAST(v1.InventoryDate AS DATE));
 GO
 ```
@@ -89,6 +92,7 @@ Select * From fProductInventoriesWithPreviousMonthCountsWithKPIs(-1);
 To further illustrate the example, (figure 1.4) displays the information contained in the previously created View table by way of a Function with the capability to 
 group the data by KPI which is based in inventory count variances from the prior month. 
 
+![Results from the Function created to group the data by KPI based on inventory count variance from prior month](https://github.com/lvalderr/DBFoundations-Module07/blob/main/Image%201.4.PNG "Results from the Function created to group the data by KPI based on inventory count variance from prior month")
 
 ***FIGURE 1.4: Results from the Function created to group the data by KPI based on inventory count variance from prior month.***
 
@@ -96,6 +100,3 @@ group the data by KPI which is based in inventory count variances from the prior
 To recap, the seventh module taught me the basic concepts and practical uses of Functions available in the MS SQL RDMS and differences between Scalar, 
 Inline and Multistatement User Defined Functions. The database created for this assignment, Assignment07DB_LuisValderrama, applies Functionalities learned 
 throughout prior modules and the practical application of SQL Functions. 
-
-
-
